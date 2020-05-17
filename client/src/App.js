@@ -6,6 +6,11 @@ function App() {
 
   const [url, setUrl] = useState('')
 
+  const onChange = e => {
+
+    setUrl(e.target.value)
+  }
+
   return (
     <div className="App">
       <header className="App-header">
@@ -15,10 +20,10 @@ function App() {
         <form>
           <label htmFor="url">urls</label>
           <input 
-          onChange={e => setUrl(e.target.value)}
+          onChange={onChange}
             value={url}>
           </input>
-          <button></button>
+          <button type="button"></button>
         </form>
         <div>{url}</div>
       </header>
