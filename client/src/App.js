@@ -1,59 +1,40 @@
-import React, { useReducer, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-function reducer(state, action) {
-	const { currentUrls, pastUrls } = state;
-	if (action.type === 'ADD') {
-		return {
-			currentUrls: [
-				...currentUrls,
-				{
-					id: Math.random(),
-					link: action.value
-				}
-			]
-		};
-	}
-	return;
-}
-
-function App() {
-	const input = useRef();
-	const [urls, dispatch] = useReducer(reducer, {
-		currentUrls: [],
-		pastUrls: []
-	});
-
-	const addUrl = e => {
-		e.preventDefault();
-		console.log(input.current.value);
-		dispatch({
-			type: 'ADD',
-			value: input.current.value
-		});
-		input.current.value = '';
+const App = () => {
+	const [urls, setUrl] = useState([]);
+	const _refs = {
+		newUrl: undefined
 	};
-
 	return (
 		<div className="App">
-			<header className="App-header">
-				<form onSubmit={addUrl}>
-					<label htmFor="url">urls</label>
-					<input ref={input} />
-					<button type="submit" type="button" />
+			<div className="addUrl">
+				<form
+					onSubmit={e => {
+						e.preventDefault();
+						setUrl([...urls, _refs.newUrl.value]);
+						_refs.newUrl.value = '';
+					}}
+				>
+					<div>
+						<label>
+							New url:
+							<input
+								ref={r => {
+									_refs.newUrl = r;
+								}}
+							/>
+						</label>
+					</div>
+					<div>
+						<button type="submit">Add!</button>
+					</div>
 				</form>
-
-				<div>
-					Urls:
-          <ul>
-				  {urls.currentUrls.map(url => <li key={url.id}>{url.link}</li>)}
-          </ul>
-	
-				</div>
-			</header>
+			</div>
+			<div className="urls">{urls.map(url => <div>{url}</div>)}</div>
 		</div>
 	);
-}
+};
 
 export default App;
